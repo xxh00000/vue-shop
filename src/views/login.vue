@@ -91,16 +91,16 @@ export default {
         //发送请求是否登陆成功
         const { data: res } = await this.$http.post("login", this.loginForm);
         //登录判断
-        console.log(res);
+        // console.log(res);
         if (res.meta.status !== 200) {
           return this.$message.error("登录失败");
         }
         this.$message.success("登录成功");
-        //路由跳转
-        this.$router.push("/home");
-        //将用户信息保存到sessionStorage中注意sessionStorage只能存储string对象
-        sessionStorage.setItem("userinfo", JSON.stringify(res.data));
+        //将用户信息保存到sessionStorage中注意sessionStorage只能存储string字符串
+        sessionStorage.setItem("userInfo", JSON.stringify(res.data));
         console.log(res);
+        //路由跳转;防止没有获取token值，就进行了跳转，使得守护路由错误，所以要在sessionStorage后面
+        this.$router.push("/home");
       });
     },
   },

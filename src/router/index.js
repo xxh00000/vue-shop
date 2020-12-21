@@ -13,8 +13,7 @@ import Home from '../views/home.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     redirect: '/login'
   },
@@ -30,6 +29,19 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+// //配置路由守卫
+router.beforeEach((to, from, next) => {
+  //如果访问登录页直接放行
+  if (to.path === '/login') {
+    return next()
+  }
+  //如果用户不访问登录页，进行判断
+  const userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+  if (!userInfo) {
+    return next('/login')
+  }
+  next()
 })
 
 export default router
