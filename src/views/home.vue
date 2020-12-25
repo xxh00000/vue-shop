@@ -22,22 +22,34 @@
       <!-- 侧边栏 -->
       <el-aside width="200px">
         <el-menu
-          default-active="2"
-          class="el-menu-vertical-demo"
+          :default-active="$route.path"
+          unique-opened
+          router
         >
-          <el-submenu index="1">
+          <el-submenu
+            :index="item.id+''"
+            v-for=" item in menuList "
+            :key="item.id"
+          >
             <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>导航一</span>
+              <i :class="iconObj[item.id]"></i>
+              <span>{{ item.authName }}</span>
             </template>
-              <el-menu-item index="1-3">选项3</el-menu-item>
-              <el-menu-item index="1-3">选项3</el-menu-item>
-              <el-menu-item index="1-3">选项3</el-menu-item>
+            <el-menu-item
+              :index="'/'+subItem.path"
+              v-for="subItem in item.children"
+              :key="subItem.id"
+            >
+              <i class="el-icon-menu"></i>
+              {{ subItem.authName }}
+            </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
       <!-- 主体 -->
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -46,13 +58,23 @@
 export default {
   data() {
     return {
+      //用户信息对象
       userInfo: null,
-      menuList: []
+      //左侧菜单列表
+      menuList: [],
+      //图像样式对象
+      iconObj: {
+        201: "iconfont icon-shouye",
+        125: "iconfont icon-user",
+        103: "iconfont icon-tijikongjian",
+        101: "iconfont icon-shangpin",
+        102: "iconfont icon-danju",
+      },
     };
   },
   created() {
     this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-    this.getMenuList()
+    this.getMenuList();
   },
   methods: {
     loginout() {
@@ -77,15 +99,15 @@ export default {
         });
     },
     //获取左侧菜单列表
-  async getMenuList() {
-    const {data:res} = await this.$http.get('menus')
-    console.log(res)
-    if(res.meta.status !== 200){
-      this.$message.error('res.meta.msg')
-    }
-    this.menuList = res.data
-    console.log(this.menuList)
-    }
+    async getMenuList() {
+      const { data: res } = await this.$http.get("menus");
+      console.log(res);
+      if (res.meta.status !== 200) {
+        this.$message.error("res.meta.msg");
+      }
+      this.menuList = res.data;
+      console.log(this.menuList);
+    },
   },
 };
 </script>
@@ -113,5 +135,8 @@ export default {
 }
 .right-span {
   margin-right: 40px;
+}
+.el-aside .el-menu .iconfont {
+  margin-right: 10px;
 }
 </style>

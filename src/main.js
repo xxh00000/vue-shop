@@ -14,7 +14,7 @@ axios.defaults.baseURL = 'http://www.tangxiaoyang.vip:8888/api/v2/'
 axios.interceptors.request.use(config => {
   //console.log(config)
   const userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
-  config.headers.Authorization = userInfo.token
+  config.headers.Authorization = userInfo ? userInfo.token : ''
   return config
 })
 Vue.prototype.$http = axios
