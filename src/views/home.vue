@@ -20,11 +20,18 @@
     </el-header>
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="200px">
+      <el-aside :width="isCollapse?'64px':'200px'">
+        <!-- 切换菜单的折叠和显示 -->
+        <div
+          class="toggle-button"
+          @click="isCollapse=!isCollapse"
+        >|||</div>
         <el-menu
           :default-active="$route.path"
           unique-opened
           router
+          :collapse="isCollapse"
+          :collapse-transition="false"
         >
           <el-submenu
             :index="item.id+''"
@@ -70,6 +77,8 @@ export default {
         101: "iconfont icon-shangpin",
         102: "iconfont icon-danju",
       },
+      //是否折叠左侧菜单
+      isCollapse: false,
     };
   },
   created() {
@@ -118,7 +127,7 @@ export default {
 }
 .el-header {
   background: url("../assets/imgs/header_bg.gif") repeat-x center;
-  height: 50px;
+  height: 50px!important;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -136,7 +145,22 @@ export default {
 .right-span {
   margin-right: 40px;
 }
+.el-aside .el-menu{
+  border-right: 0;
+}
 .el-aside .el-menu .iconfont {
   margin-right: 10px;
+}
+.el-aside .toggle-button {
+  background-color: #60779d;
+  font-size: 10px;
+  line-height: 24px;
+  text-align: center;
+  color: white;
+  letter-spacing: 0.2rem;
+  cursor: pointer;
+}
+.el-main{
+  background-color: #eaedf1;;
 }
 </style>
