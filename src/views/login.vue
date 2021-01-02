@@ -9,18 +9,12 @@
 <template>
   <div class="login-container">
     <div class="login-left">
-      <img
-        src="../assets/login_img.png"
-        alt="无法显示图片"
-      >
+      <img src="../assets/login_img.png" alt="无法显示图片" />
     </div>
     <div class="login-box">
       <!-- 头像 -->
       <div class="login-logo">
-        <img
-          src="../assets/login_logo.png"
-          alt="logo"
-        >
+        <img src="../assets/login_logo.png" alt="logo" />
       </div>
       <!-- 标题 -->
       <div class="login-title">
@@ -28,32 +22,14 @@
       </div>
       <!-- input表单 -->
       <div class="login-form">
-        <el-form
-          ref="loginFormRef"
-          :model="loginForm"
-          :rules="loginFormRules"
-          status-icon
-        >
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" status-icon>
           <el-form-item prop="username">
-            <el-input
-              v-model="loginForm.username"
-              placeholder="请输入用户名"
-              prefix-icon=" iconfont icon-user"
-            ></el-input>
+            <el-input v-model="loginForm.username" placeholder="请输入用户名" prefix-icon=" iconfont icon-user"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input
-              v-model="loginForm.password"
-              placeholder="请输入密码"
-              prefix-icon=" iconfont icon-3702mima"
-              type="password"
-            ></el-input>
+            <el-input v-model="loginForm.password" placeholder="请输入密码" prefix-icon=" iconfont icon-3702mima" type="password"></el-input>
           </el-form-item>
-          <el-button
-            type="primary"
-            class="login-butn"
-            @click="login"
-          >登录</el-button>
+          <el-button type="primary" class="login-butn" @click="login">登录</el-button>
         </el-form>
       </div>
     </div>
@@ -66,45 +42,45 @@ export default {
     return {
       //表单的数据绑定对象
       loginForm: {
-        username: "admin",
-        password: "123456",
+        username: 'admin',
+        password: '123456',
       },
       //表单的校验规则,以对象形式
       loginFormRules: {
         username: [
-          { required: true, message: "请输入登录账户", trigger: "blur" },
-          { min: 3, max: 10, message: "长度在3到10个字符", trigger: "blur" },
+          { required: true, message: '请输入登录账户', trigger: 'blur' },
+          { min: 3, max: 10, message: '长度在3到10个字符', trigger: 'blur' },
         ],
         passward: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-          { min: 6, max: 10, message: "长度在6到10个字符", trigger: "blur" },
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, max: 10, message: '长度在6到10个字符', trigger: 'blur' },
         ],
       },
-    };
+    }
   },
   methods: {
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) {
-          return;
+          return
         }
         //发送请求是否登陆成功
-        const { data: res } = await this.$http.post("login", this.loginForm);
+        const { data: res } = await this.$http.post('login', this.loginForm)
         //登录判断
         // console.log(res);
         if (res.meta.status !== 200) {
-          return this.$message.error("登录失败");
+          return this.$message.error('登录失败')
         }
-        this.$message.success("登录成功");
+        this.$message.success('登录成功')
         //将用户信息保存到sessionStorage中注意sessionStorage只能存储string字符串
-        sessionStorage.setItem("userInfo", JSON.stringify(res.data));
-        console.log(res);
+        sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+        console.log(res)
         //路由跳转;防止没有获取token值，就进行了跳转，使得守护路由错误，所以要在sessionStorage后面
-        this.$router.push("/home");
-      });
+        this.$router.push('/home')
+      })
     },
   },
-};
+}
 </script>
 
 <style>

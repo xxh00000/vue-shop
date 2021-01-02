@@ -3,50 +3,26 @@
     <!-- 头部 -->
     <el-header>
       <div class="left">
-        <img
-          src="../assets/imgs/shop.png"
-          alt=""
-        >
+        <img src="../assets/imgs/shop.png" alt="" />
         <span>电商后台管理系统</span>
       </div>
       <div class="right">
         <span class="right-span">欢迎您：{{ userInfo.username }}</span>
-        <el-button
-          type="danger"
-          size="mini"
-          @click="loginout"
-        >退出</el-button>
+        <el-button type="danger" size="mini" @click="loginout">退出</el-button>
       </div>
     </el-header>
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside :width="isCollapse?'64px':'200px'">
+      <el-aside :width="isCollapse ? '64px' : '200px'">
         <!-- 切换菜单的折叠和显示 -->
-        <div
-          class="toggle-button"
-          @click="isCollapse=!isCollapse"
-        >|||</div>
-        <el-menu
-          :default-active="$route.path"
-          unique-opened
-          router
-          :collapse="isCollapse"
-          :collapse-transition="false"
-        >
-          <el-submenu
-            :index="item.id+''"
-            v-for=" item in menuList "
-            :key="item.id"
-          >
+        <div class="toggle-button" @click="isCollapse = !isCollapse">|||</div>
+        <el-menu :default-active="$route.path" unique-opened router :collapse="isCollapse" :collapse-transition="false">
+          <el-submenu :index="item.id + ''" v-for="item in menuList" :key="item.id">
             <template slot="title">
               <i :class="iconObj[item.id]"></i>
               <span>{{ item.authName }}</span>
             </template>
-            <el-menu-item
-              :index="'/'+subItem.path"
-              v-for="subItem in item.children"
-              :key="subItem.id"
-            >
+            <el-menu-item :index="'/' + subItem.path" v-for="subItem in item.children" :key="subItem.id">
               <i class="el-icon-menu"></i>
               {{ subItem.authName }}
             </el-menu-item>
@@ -71,54 +47,54 @@ export default {
       menuList: [],
       //图像样式对象
       iconObj: {
-        201: "iconfont icon-shouye",
-        125: "iconfont icon-user",
-        103: "iconfont icon-tijikongjian",
-        101: "iconfont icon-shangpin",
-        102: "iconfont icon-danju",
+        201: 'iconfont icon-shouye',
+        125: 'iconfont icon-user',
+        103: 'iconfont icon-tijikongjian',
+        101: 'iconfont icon-shangpin',
+        102: 'iconfont icon-danju',
       },
       //是否折叠左侧菜单
       isCollapse: false,
-    };
+    }
   },
   created() {
-    this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-    this.getMenuList();
+    this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+    this.getMenuList()
   },
   methods: {
     loginout() {
-      this.$confirm("此操作将退出登录, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('此操作将退出登录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           this.$message({
-            type: "success",
-            message: "退出登录成功!",
-          });
-          sessionStorage.clear();
-          this.$router.push("/login");
+            type: 'success',
+            message: '退出登录成功!',
+          })
+          sessionStorage.clear()
+          this.$router.push('/login')
         })
         .catch(() => {
           this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
+            type: 'info',
+            message: '已取消删除',
+          })
+        })
     },
     //获取左侧菜单列表
     async getMenuList() {
-      const { data: res } = await this.$http.get("menus");
-      console.log(res);
+      const { data: res } = await this.$http.get('menus')
+      console.log(res)
       if (res.meta.status !== 200) {
-        this.$message.error("res.meta.msg");
+        this.$message.error('res.meta.msg')
       }
-      this.menuList = res.data;
-      console.log(this.menuList);
+      this.menuList = res.data
+      console.log(this.menuList)
     },
   },
-};
+}
 </script>
 
 <style>
@@ -126,8 +102,8 @@ export default {
   height: 100%;
 }
 .el-header {
-  background: url("../assets/imgs/header_bg.gif") repeat-x center;
-  height: 50px!important;
+  background: url('../assets/imgs/header_bg.gif') repeat-x center;
+  height: 50px !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -145,7 +121,7 @@ export default {
 .right-span {
   margin-right: 40px;
 }
-.el-aside .el-menu{
+.el-aside .el-menu {
   border-right: 0;
 }
 .el-aside .el-menu .iconfont {
@@ -160,7 +136,7 @@ export default {
   letter-spacing: 0.2rem;
   cursor: pointer;
 }
-.el-main{
-  background-color: #eaedf1;;
+.el-main {
+  background-color: #eaedf1;
 }
 </style>
