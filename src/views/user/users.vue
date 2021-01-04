@@ -16,7 +16,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary">添加用户</el-button>
+          <el-button type="primary" @click="addDialogVisible = true">添加用户</el-button>
         </el-col>
       </el-row>
       <!-- 表格展示 -->
@@ -52,6 +52,28 @@
       >
       </el-pagination>
     </el-card>
+    <!-- 添加用户的对话框 -->
+    <el-dialog title="提示" :visible.sync="addDialogVisible" >
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px" >
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="addForm.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="addForm.password"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="addForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="mobile">
+          <el-input v-model="addForm.mobile"></el-input>
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addDdialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -70,6 +92,35 @@ export default {
       usersList: [],
       //总的记录数
       total: 0,
+      //添加对话框的显示和隐藏
+      addDialogVisible: false,
+      //添加用户的表单数据对象
+      addForm: {
+        username: '',
+        password: '',
+        email: '',
+        mobile: ''
+      },
+      //添加用户的校验规则
+      addFormRules:{
+         username: [
+            { required: true, message: '请输入用户名', trigger: 'blur' },
+            { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请输入密码', trigger: 'blur' },
+            { min: 6, max: 15, message: '长度在 6到 15 个字符', trigger: 'blur' }
+          ],
+          email: [
+            { required: true, message: '请输入邮箱', trigger: 'blur' },
+            { pattern:/\w+@[a-z0-9]+\.[a-z]{2,4}/, message: '邮箱格式不正确', trigger: 'blur'}
+          ],
+         mobile: [
+            { required: true, message: '请输入电话号', trigger: 'blur' },
+            { pattern:/^1[3|4|5|7|8][0-9]{9}$/, message: '手机号格式不正确', trigger: 'blur'}
+          ],
+          
+      },
     }
   },
   created() {
