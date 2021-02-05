@@ -18,7 +18,23 @@ axios.interceptors.request.use(config => {
   return config
 })
 Vue.prototype.$http = axios
+//全局注册第三方表格组件
+import ZkTable from 'vue-table-with-tree-grid'
+Vue.component('tree-table', ZkTable)
 Vue.config.productionTip = false
+
+//工具库
+import utils from './libs/utils'
+Vue.prototype.$utils = utils
+
+//编辑器
+import VueQuillEditor from 'vue-quill-editor'
+
+import 'quill/dist/quill.core.css' 
+import 'quill/dist/quill.snow.css' 
+import 'quill/dist/quill.bubble.css' 
+
+Vue.use(VueQuillEditor)
 
 new Vue({
   router,
