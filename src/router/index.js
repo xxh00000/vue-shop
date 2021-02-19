@@ -18,6 +18,8 @@ import Categories from '../views/goods/categories.vue'
 import Params from '../views/goods/params.vue'
 import List from '../views/goods/list.vue'
 import Add from '../views/goods/add.vue'
+import Edit from '../views/goods/edit.vue'
+
 
 
 
@@ -68,6 +70,10 @@ const routes = [{
       {
         path: '/goods/add',
         component: Add
+      },
+      {
+        path: '/goods/edit',
+        component: Edit
       }
     ]
   }

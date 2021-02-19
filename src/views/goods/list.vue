@@ -28,7 +28,7 @@
         <el-table-column prop="add_time" label="创建时间" width="170px"></el-table-column>
         <el-table-column prop="goods_name" label="操作" width="135px">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" icon="el-icon-edit"></el-button>
+            <el-button size="mini" type="primary" icon="el-icon-edit" @click="editRoter(scope.row.goods_id)"></el-button>
             <el-button size="mini" type="danger" icon="el-icon-delete" @click="reMoveById(scope.row.goods_id)"></el-button>
           </template>
         </el-table-column>
@@ -109,6 +109,10 @@ export default {
     //跳转添加商品页面
     addGoods(){
       this.$router.push(`goods/add`)
+    },
+    //跳转编辑页面
+    editRoter(id){
+      this.$router.push(`/goods/edit?id=`+id)
     }
   }
 }
