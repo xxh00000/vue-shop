@@ -59,7 +59,7 @@
           </el-tab-pane>
           <el-tab-pane label="商品内容" name="4">
             <quill-editor v-model="editForm.goods_introduce" />
-            <el-button type="primary" class="btn-add" @click="addGoods()">添加商品</el-button>
+            <el-button type="primary" class="btn-add" @click="editGoods()">添加商品</el-button>
           </el-tab-pane>
         </el-tabs>
       </el-form>
@@ -209,8 +209,8 @@ export default {
       console.log(this.editForm)
       console.log(this.editForm.pics)
     },
-    //添加商品按钮事件
-    addGoods() {
+    //修改商品按钮事件
+    editGoods() {
       this.$refs.editFormRef.validate(async valid => {
         if (!valid) {
           return
@@ -221,23 +221,23 @@ export default {
         //处理动态数组
         this.manyData.forEach(item => {
           form.attrs.push({
-            attr_id: item.attr.id,
-            attr_value: item.attr.vals.join(' ')
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals.join(' ')
           })
         })
         //处理静态属性
         this.onlyData.forEach(item => {
           form.attrs.push({
-            attr_id: item.attr.id,
-            attr_value: item.attr.vals
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals
           })
         })
         //  发送请求
-        const { data: res } = await this.$http.post(`goods`, form)
-        if (res.meta.status !== 201) {
-          return this.$message.error('添加商品失败')
+        const { data: res } = await this.$http.put(`goods/${this.editForm.goods_id}`, form)
+        if (res.meta.status !== 200) {
+          return this.$message.error('修改商品失败')
         }
-        this.$message.success('添加商品成功')
+        this.$message.success('修改商品成功')
         this.$router.push('/goods')
       })
     },

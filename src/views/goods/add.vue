@@ -219,15 +219,15 @@ export default {
        //处理动态数组
        this.manyData.forEach(item=>{
          form.attrs.push({
-           attr_id:item.attr.id,
-           attr_value:item.attr.vals.join(' ')
+           attr_id:item.attr_id,
+           attr_value:item.attr_vals.join(' ')
          })
        })
        //处理静态属性
         this.onlyData.forEach(item=>{
          form.attrs.push({
-           attr_id:item.attr.id,
-           attr_value:item.attr.vals
+           attr_id:item.attr_id,
+           attr_value:item.attr_vals
          })
        })
       //  发送请求
